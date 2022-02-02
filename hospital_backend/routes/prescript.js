@@ -57,11 +57,11 @@ router.route("/pupdate/:id").put(async(req,res)=>{
     })
 })
 
-router.route("/pdelete/:patientName").delete(async(req,res)=> {
+router.route("/pdelete/:id").delete(async(req,res)=> {
 
-    let prename = req.params.patientName;
+    let prename = req.params.id;
 
-    await Prescript.findOneAndDelete(prename).then(()=> {
+    await Prescript.findByIdAndDelete(prename).then(()=> {
         res.status(200).send({status: "Prescription was deleted"});
     }).catch((err)=> {
        console.log(err.message);
@@ -74,7 +74,8 @@ router.route("/pget/:id").get(async(req,res)=> {
     let preID = req.params.id;
 
    const prescript = await Prescript.findById(preID).then((Prescript)=> {
-        res.status(200).send({status: "Prescription Fetched", Prescript})
+        //res.status(200).send({status: "Prescription Fetched", Prescript})
+        res.json(Prescript);
     }).catch((err)=> {
         console.log(err.message);
         res.status(500).send({status: "error with get prescription", error: err.message});  

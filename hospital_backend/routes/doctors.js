@@ -37,9 +37,9 @@ router.route("/").get((req,res)=>{
     })
 })
 
-router.route("/update/:did").put(async(req,res)=>{
+router.route("/update/:id").put(async(req,res)=>{
 
-    let docID = req.params.did;
+    let docID = req.params.id;
     const{ name, contact, email, gender, speciality} = req.body;
 
     const updateDoctor = {
@@ -50,7 +50,7 @@ router.route("/update/:did").put(async(req,res)=>{
         speciality
     }
 
-    const update = await Doctor.findOneAndUpdate(docID, updateDoctor).then(()=> {
+    const update = await Doctor.findByIdAndUpdate(docID, updateDoctor).then(()=> {
 
         res.status(200).send({status:"Doctor updated" })
     }).catch((err)=> {
@@ -59,11 +59,11 @@ router.route("/update/:did").put(async(req,res)=>{
 
 })
 
-router.route("/delete/:email").delete(async(req,res)=> {
+router.route("/delete/:id").delete(async(req,res)=> {
 
-    const docID = req.params.email;
+    const docID = req.params.id;
 
-    await Doctor.findOneAndDelete(docID).then(()=> {
+    await Doctor.findByIdAndDelete(docID).then(()=> {
         res.status(200).send({status: "Doctor was deleted"});
     }).catch((err)=> {
        console.log(err.message);
@@ -76,7 +76,8 @@ router.route("/get/:id").get(async(req,res)=> {
     let docID = req.params.id;
 
    const doctor = await Doctor.findById(docID).then((Doctor)=> {
-        res.status(200).send({status: "Doctor Fetched", Doctor})
+       // res.status(200).send({status: "Doctor Fetched", Doctor})
+       res.json(Doctor);
     }).catch((err)=> {
         console.log(err.message);
         res.status(500).send({status: "error with get doctor", error: err.message});  
