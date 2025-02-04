@@ -1,3 +1,3 @@
-# dev_app
-IT number - IT20148690
+# Hospital Management System for ITP 
 username - lakineth
+
